@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <Title>Experimental .NET library to verify integrity of a system</Title>
+    <Description>Experimental .NET library to verify integrity of a system</Description>
+    <Version>0.1.0-pre</Version>
+    <Authors>gsscoder</Authors>
+    <Copyright>Copyright © Giacomo Stelluti Scala, 2020</Copyright>
+    <PackageProjectUrl>https://github.com/gsscoder/integrity</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gsscoder/integrity</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>system;testing;verification;integrity;api;library</PackageTags>  
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>../../artifacts/Integrity/Debug</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>../../artifacts/Integrity/Release</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Integrity.Specs</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
+</Project>
