@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RailwaySharp;
-using Integrity;
 
 namespace Integrity.TestingHelpers
 {

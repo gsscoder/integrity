@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO.Abstractions;
-using System.IO.Abstractions.TestingHelpers;
 using CSharpx;
 using Bogus.DataSets;
 using BogusSystem = Bogus.DataSets.System;
