@@ -4,7 +4,7 @@ nuget coverlet.collector 1.0.1
 nuget Microsoft.NET.Test.Sdk 16.2.0
 nuget xunit 2.4.0
 nuget xunit.runner.visualstudio 2.4.0
-nuget CSharpx 2.5.0-beta
+nuget CSharpx 2.6.5-rc1
 nuget RailwaySharp 1.2.2
 nuget System.IO.Abstractions 8.0.5
 nuget System.IO.Abstractions.TestingHelpers 8.0.5
