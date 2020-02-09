@@ -30,7 +30,7 @@ namespace Integrity.TestingHelpers
 
         public Task<IPStatus> PingAsync(string host, int timeout)
         {
-            var @this =_hosts.SingleOrDefault(h => h.Name.Equals(host, StringComparison.Ordinal));
+            var @this = _hosts.SingleOrDefault(h => h.Name.Equals(host, StringComparison.Ordinal));
             if (@this == null) return Task.FromResult(IPStatus.Unknown);
             if (@this.Delay > timeout) return Task.FromResult(IPStatus.TimedOut);
             return Task.FromResult(IPStatus.Success);
