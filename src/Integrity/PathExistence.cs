@@ -13,7 +13,7 @@ namespace Integrity
     {
         string _basePath = string.Empty;
         bool _basePathSet = false;
-        internal List<(bool, string)> Value { get; private set; }
+        public List<(bool, string)> Value { get; private set; }
 
         public Paths()
         {
