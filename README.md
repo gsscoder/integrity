@@ -40,16 +40,11 @@ static class AppComponents
 {
     static readonly string _deploymentPath = Environment.GetEnvironmentVariable("DEPLOY_PATH");
 
-    public static IEnumerable<PathItem> FileSystem
-    {
-        get {
-            yield return PathItem.File(Path.Combine(_deploymentPath, "conf/settings.json"));
-            yield return PathItem.File(Path.Combine(_deploymentPath, "conf/access.key"));
-            yield return PathItem.File(Path.Combine(_deploymentPath, "bin/launcher"));
-            yield return PathItem.Directory(Path.Combine(_deploymentPath, "cache"));
-            // ...
-        }
-    }
+    public static Paths FileSystem => new Paths()
+        .AddFile("conf/settings.json")
+        .AddFile("conf/access.key")
+        .AddFile("bin/launcher")
+        .AddDirectory("cache");
 
     public static IEnumerable<string> Network
     {
