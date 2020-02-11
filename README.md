@@ -61,7 +61,7 @@ public class IntegritySpecs
     {
         // Setup the proving context
         var context = new ProvingContext(
-            new PathExistence(AppComponents.FileSystem),
+            new PathExistence(AppComponents.FileSystem.Content),
             new HostAvailability(AppComponents.Network));
 
         // Prove the system integrity

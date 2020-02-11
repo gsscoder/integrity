@@ -29,7 +29,7 @@ public class IntegritySpecs
     public async void Prove_integrity()
     {
         var context = new ProvingContext(
-            new PathExistence(AppComponents.FileSystem.Value),
+            new PathExistence(AppComponents.FileSystem.Content),
             new HostAvailability(AppComponents.Network));
 
         var evidence = await context.ProveAsync();

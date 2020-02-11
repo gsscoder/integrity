@@ -12,11 +12,11 @@ namespace Integrity
     {
         string _basePath = string.Empty;
         bool _basePathSet = false;
-        public List<(bool, string)> Value { get; private set; }
+        List<(bool, string)> _paths;
 
         public Paths()
         {
-            Value = new List<(bool, string)>();
+            _paths = new List<(bool, string)>();
         }
 
         public Paths SetBasePath(string value)
@@ -29,15 +29,17 @@ namespace Integrity
             return this;
         }
 
+        public IEnumerable<(bool, string)> Content => _paths;
+
         public Paths AddFile(string path)
         {
-            Value.Add((true, Path.Combine(_basePath, path)));
+            _paths.Add((true, Path.Combine(_basePath, path)));
             return this;
         }
 
         public Paths AddDirectory(string path)
         {
-            Value.Add((false, Path.Combine(_basePath, path)));
+            _paths.Add((false, Path.Combine(_basePath, path)));
             return this;
         }
     }
