@@ -6,6 +6,22 @@ using RailwaySharp;
 
 namespace Integrity
 {
+    public sealed class Hosts
+    {
+        List<string> _hosts = new List<string>();
+
+        public Hosts AddHost(string host)
+        {
+            Guard.AgainstNull(nameof(host), host);
+            Guard.AgainstEmptyWhiteSpace(nameof(host), host);
+
+            _hosts.Add(host);
+            return this;
+        }
+
+        public IEnumerable<string> Content => _hosts;
+    }
+
     public sealed class HostAvailability : EvidenceProvider
     {
         readonly INetwork _network;

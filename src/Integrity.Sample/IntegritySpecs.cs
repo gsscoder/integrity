@@ -14,13 +14,10 @@ static class AppComponents
         .AddFile("empty2")
         .AddDirectory("empty");
 
-    public static IEnumerable<string> Network
-    {
-        get {
-            yield return "github.com";
-            yield return "google.com";
-        }
-    }
+    public static Hosts Network => new Hosts()
+        .AddHost("github.com")
+        .AddHost("google.com");
+        
 }
 
 public class IntegritySpecs
@@ -30,7 +27,7 @@ public class IntegritySpecs
     {
         var context = new ProvingContext(
             new PathExistence(AppComponents.FileSystem.Content),
-            new HostAvailability(AppComponents.Network));
+            new HostAvailability(AppComponents.Network.Content));
 
         var evidence = await context.ProveAsync();
 
