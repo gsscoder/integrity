@@ -14,14 +14,14 @@ public class PathExistenceSpecs
         const string fakePath = "/var/tests/fake.txt";
         var mock = ArbitraryIO.Files(ArbitraryIO.FilePaths(
             samples: Maybe.Nothing<ushort>(), fakePath));
-        var sut = new PathExistence(mock, PathItem.Files(fakePath));
+        var sut = new PathExistence(mock, new Paths().AddFile(fakePath).Value);
 
         var outcome = await sut.VerifyAsync();
 
         outcome.Should().NotBeNull()
             .And.BeOfType<Ok<Evidence, string>>()
             .Which.SucceededWith().Should().BeEquivalentTo(new Evidence(typeof(PathExistence),
-                                                                        PathItem.Files(fakePath)));
+                                                                        new Paths().AddFile(fakePath).Value));
     }
 
     [Fact]
@@ -30,14 +30,14 @@ public class PathExistenceSpecs
         const string fakePath = "/var/tests";
         var mock = ArbitraryIO.Directories(ArbitraryIO.DirectoryPaths(
             samples: Maybe.Nothing<ushort>(), fakePath));
-        var sut = new PathExistence(mock, PathItem.Directories(fakePath));
+        var sut = new PathExistence(mock, new Paths().AddDirectory(fakePath).Value);
 
         var outcome = await sut.VerifyAsync();
 
         outcome.Should().NotBeNull()
             .And.BeOfType<Ok<Evidence, string>>()
             .Which.SucceededWith().Should().BeEquivalentTo(new Evidence(typeof(PathExistence),
-                                                                        PathItem.Directories(fakePath)));
+                                                                        new Paths().AddDirectory(fakePath).Value));
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class PathExistenceSpecs
     {
         const string fakePath = "/var/tests/fake.txt";
         var mock = ArbitraryIO.Files(ArbitraryIO.FilePaths(samples: Maybe.Nothing<ushort>()));
-        var sut = new PathExistence(mock, PathItem.Files(fakePath));
+        var sut = new PathExistence(mock, new Paths().AddFile(fakePath).Value);
 
         var outcome = await sut.VerifyAsync();
 
@@ -55,11 +55,11 @@ public class PathExistenceSpecs
     }
 
     [Fact]
-    public async void Should_prove_directory_existence_if_does_not_exists()
+    public async void Should_not_prove_directory_existence_if_does_not_exists()
     {
         const string fakePath = "/var/tests";
         var mock = ArbitraryIO.Directories(ArbitraryIO.DirectoryPaths(samples: Maybe.Nothing<ushort>()));
-        var sut = new PathExistence(mock, PathItem.Directories(fakePath));
+        var sut = new PathExistence(mock, new Paths().AddDirectory(fakePath).Value);
 
         var outcome = await sut.VerifyAsync();
 
@@ -76,7 +76,7 @@ public class PathExistenceSpecs
         var mock = ArbitraryIO.Files(ArbitraryIO.FilePaths(
             samples: Maybe.Nothing<ushort>(), fakeFilePath));
         ArbitraryIO.AddDirectories((MockFileSystem)mock, fakeDirectoryPath);
-        var paths = new PathItem[] { PathItem.File(fakeFilePath), PathItem.Directory(fakeDirectoryPath) };
+        var paths = new Paths().AddFile(fakeFilePath).AddDirectory(fakeDirectoryPath).Value;
         var sut = new PathExistence(mock, paths);
 
         var outcome = await sut.VerifyAsync();

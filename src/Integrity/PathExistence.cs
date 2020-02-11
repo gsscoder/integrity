@@ -1,72 +1,55 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 using System.IO.Abstractions;
+using CSharpx;
 using RailwaySharp;
 
 namespace Integrity
 {
-    internal enum PathItemType
+    public sealed class Paths
     {
-        File,
-        Directory
-    }
+        string _basePath = string.Empty;
+        bool _basePathSet = false;
+        internal List<(bool, string)> Value { get; private set; }
 
-    public sealed class PathItem
-    {
-        internal PathItem(PathItemType tag, string value)
+        public Paths()
         {
-            Tag = tag;
-            Value = value;
+            Value = new List<(bool, string)>();
         }
 
-        internal PathItemType Tag { get; private set; }
-
-        internal string Value { get; set; }
-
-        public static IEnumerable<PathItem> Files(params string[] paths)
+        public Paths SetBasePath(string value)
         {
-            Guard.AgainstArraySize(nameof(paths), 1, paths);
+            if (_basePathSet) throw new InvalidOperationException("Cannot set base path more than once.");
+            Guard.AgainstNull(nameof(value), value);
 
-            return _(); IEnumerable<PathItem> _()
-            {
-                foreach (var path in paths) yield return File(path);
-            }
+            _basePath = value;
+            _basePathSet = true;
+            return this;
         }
 
-        public static PathItem File(string path)
+        public Paths AddFile(string path)
         {
-            Guard.AgainstNull(nameof(path), path);
-            Guard.AgainstEmptyWhiteSpace(nameof(path), path);
-
-            return new PathItem(PathItemType.File, path);
+            Value.Add((true, Path.Combine(_basePath, path)));
+            return this;
         }
 
-        public static IEnumerable<PathItem> Directories(params string[] paths)
+        public Paths AddDirectory(string path)
         {
-            Guard.AgainstArraySize(nameof(paths), 1, paths);
-
-            return _(); IEnumerable<PathItem> _()
-            {
-                foreach (var path in paths) yield return Directory(path)
-;            }
-        }
-
-        public static PathItem Directory(string path)
-        {
-            Guard.AgainstNull(nameof(path), path);
-            Guard.AgainstEmptyWhiteSpace(nameof(path), path);
-
-            return new PathItem(PathItemType.Directory, path);
+            Value.Add((false, Path.Combine(_basePath, path)));
+            return this;
         }
     }
 
     public sealed class PathExistence : EvidenceProvider
     {
         readonly IFileSystem _fileSystem;
-        readonly IEnumerable<PathItem> _paths;
+        readonly IEnumerable<(bool, string)> _paths;
     
-        public PathExistence(IFileSystem fileSystem, IEnumerable<EvidenceProvider> dependencies, IEnumerable<PathItem> paths) : base(dependencies)
+        public PathExistence(IFileSystem fileSystem, IEnumerable<EvidenceProvider> dependencies,
+            IEnumerable<(bool, string)> paths) : base(dependencies)
         {
             Guard.AgainstNull(nameof(paths), paths);
 
@@ -74,30 +57,31 @@ namespace Integrity
             _paths = paths;
         } 
 
-        public PathExistence(IEnumerable<EvidenceProvider> dependencies, IEnumerable<PathItem> paths)
+        public PathExistence(IEnumerable<EvidenceProvider> dependencies, IEnumerable<(bool, string)> paths)
             : this(new FileSystem(), dependencies, paths) { }
 
-        public PathExistence(IFileSystem fileSystem, IEnumerable<PathItem> paths)
+        public PathExistence(IFileSystem fileSystem, IEnumerable<(bool, string)> paths)
             : this(fileSystem, Enumerable.Empty<EvidenceProvider>(), paths) { }
 
-        public PathExistence(IEnumerable<PathItem> paths)
+        public PathExistence(IEnumerable<(bool, string)> paths)
             : this(new FileSystem(), Enumerable.Empty<EvidenceProvider>(), paths) { }
 
         public override Task<Result<Evidence, string>> VerifyAsync()
         {
-            foreach (var path in _paths)
+            foreach (var item in _paths)
             {
-                switch (path.Tag) {
+                (var isFile, var path) = item;
+                switch (isFile) {
                     default:
-                        if (!_fileSystem.File.Exists(path.Value)) {
+                        if (!_fileSystem.File.Exists(path)) {
                             return Task.FromResult(
-                                Result<Evidence, string>.FailWith($"{path.Value} file is not found."));
+                                Result<Evidence, string>.FailWith($"{path} file is not found."));
                         }
                         continue;
-                    case PathItemType.Directory:
-                        if (!_fileSystem.Directory.Exists(path.Value)) {
+                    case false:
+                        if (!_fileSystem.Directory.Exists(path)) {
                             return Task.FromResult(
-                                Result<Evidence, string>.FailWith($"{path.Value} directory is not found."));
+                                Result<Evidence, string>.FailWith($"{path} directory is not found."));
                         }
                         continue;
                 }
