@@ -38,9 +38,8 @@ Total tests: 1
 ```csharp
 static class AppComponents 
 {
-    static readonly string _deploymentPath = Environment.GetEnvironmentVariable("DEPLOY_PATH");
-
     public static Paths FileSystem => new Paths()
+        .SetBasePath(Environment.GetEnvironmentVariable("DEPLOY_PATH"))
         .AddFile("conf/settings.json")
         .AddFile("conf/access.key")
         .AddFile("bin/launcher")
