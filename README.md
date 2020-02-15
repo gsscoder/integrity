@@ -29,29 +29,25 @@ $ env INTEGRITY_SAMPLE="/absolute/path/to/integrity/src/Integrity.Sample/data" d
 Test Run Successful.
 Total tests: 1
      Passed: 1
- Total time: 3.5685 Seconds
+ Total time: 2.5333 Seconds
 ```
 
 ## At a glance
 
 **CSharp:**
 ```csharp
-static class AppComponents 
+class MyApplication : Application 
 {
-    public static Paths FileSystem => new Paths()
-        .SetBasePath(Environment.GetEnvironmentVariable("DEPLOY_PATH"))
-        .AddFile("conf/settings.json")
-        .AddFile("conf/access.key")
-        .AddFile("bin/launcher")
-        .AddDirectory("cache");
+    public Paths FileSystem => Paths
+        .SetBasePath(Environment.GetEnvironmentVariable("INTEGRITY_SAMPLE"))
+        .AddFile("empty0")
+        .AddFile("empty1")
+        .AddFile("empty2")
+        .AddDirectory("empty");
 
-    public static IEnumerable<string> Network
-    {
-        get {
-            yield return "yourhost.com";
-            // ...
-        }
-    }
+    public Hosts Network => Hosts
+        .AddHost("github.com")
+        .AddHost("google.com");
 }
 
 public class IntegritySpecs
@@ -60,9 +56,7 @@ public class IntegritySpecs
     public async void Prove_integrity()
     {
         // Setup the proving context
-        var context = new ProvingContext(
-            new PathExistence(AppComponents.FileSystem.Content),
-            new HostAvailability(AppComponents.Network));
+        var context = new MyApplication().ToProvingContext();
 
         // Prove the system integrity
         var evidence = await context.ProveAsync();
