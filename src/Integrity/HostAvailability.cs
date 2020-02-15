@@ -19,7 +19,7 @@ namespace Integrity
             return this;
         }
 
-        public IEnumerable<string> Content => _hosts;
+        internal IEnumerable<string> Content => _hosts;
     }
 
     public sealed class HostAvailability : EvidenceProvider

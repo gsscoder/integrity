@@ -4,20 +4,18 @@ using Xunit;
 using Integrity;
 using Integrity.TestingHelpers;
 
-static class AppComponents 
+class MyApplication : Application 
 {
-    static readonly string _deploymentPath = Environment.GetEnvironmentVariable("INTEGRITY_SAMPLE");
-
-    public static Paths FileSystem => new Paths()
+    public Paths FileSystem => Paths
+        .SetBasePath(Environment.GetEnvironmentVariable("INTEGRITY_SAMPLE"))
         .AddFile("empty0")
         .AddFile("empty1")
         .AddFile("empty2")
         .AddDirectory("empty");
 
-    public static Hosts Network => new Hosts()
+    public Hosts Network => Hosts
         .AddHost("github.com")
         .AddHost("google.com");
-        
 }
 
 public class IntegritySpecs
@@ -25,9 +23,7 @@ public class IntegritySpecs
     [Fact]
     public async void Prove_integrity()
     {
-        var context = new ProvingContext(
-            new PathExistence(AppComponents.FileSystem.Content),
-            new HostAvailability(AppComponents.Network.Content));
+        var context = new MyApplication().ToProvingContext();
 
         var evidence = await context.ProveAsync();
 

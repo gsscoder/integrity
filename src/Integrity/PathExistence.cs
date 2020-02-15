@@ -29,7 +29,7 @@ namespace Integrity
             return this;
         }
 
-        public IEnumerable<(bool, string)> Content => _paths;
+        internal IEnumerable<(bool, string)> Content => _paths;
 
         public Paths AddFile(string path)
         {
