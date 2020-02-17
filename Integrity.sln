@@ -7,11 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{328383
 		paket.dependencies = paket.dependencies
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integrity", "Integrity\Integrity.csproj", "{C91C7AC8-D052-4837-9203-E89E05B7AECC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integrity", "src/Integrity/Integrity.csproj", "{C91C7AC8-D052-4837-9203-E89E05B7AECC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integrity.Specs", "Integrity.Specs\Integrity.Specs.csproj", "{CE33D511-FB96-4342-895A-A8CF86DAE975}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integrity.Specs", "tests/Integrity.Specs/Integrity.Specs.csproj", "{CE33D511-FB96-4342-895A-A8CF86DAE975}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integrity.Sample", "Integrity.Sample\Integrity.Sample.csproj", "{FF188AD0-A3D7-4839-90C1-B872951A325B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integrity.Sample", "samples/Integrity.Sample/Integrity.Sample.csproj", "{FF188AD0-A3D7-4839-90C1-B872951A325B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
