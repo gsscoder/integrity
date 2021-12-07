@@ -25,7 +25,7 @@ $ dotnet build -c release
 $ cd integrity/src/Integrity.Sample
 $ dotnet build -c debug
 $ env INTEGRITY_SAMPLE="/absolute/path/to/integrity/src/Integrity.Sample/data" dotnet test
-...                                                                                                 
+...
 Test Run Successful.
 Total tests: 1
      Passed: 1
@@ -35,6 +35,7 @@ Total tests: 1
 ## At a glance
 
 **CSharp:**
+
 ```csharp
 class MyApplication : Application 
 {
