@@ -23,5 +23,5 @@
       <_Parameter1>Integrity.Specs</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
-  <Import Project="../../.paket/Paket.Restore.targets" />
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
